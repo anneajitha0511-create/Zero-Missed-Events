@@ -1,4 +1,4 @@
-CampusPulse - prototype
+CampusEvents - prototype
 
 Run: unzip, then double click index.html (Chrome / Edge / Firefox). No installation.
 
