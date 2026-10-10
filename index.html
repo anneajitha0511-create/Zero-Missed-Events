@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusPulse - Every Event. Every Department. Every Opportunity.</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <svg width="46" height="24" viewBox="0 0 46 24" aria-hidden="true"><polyline points="0,13 10,13 14,4 20,21 25,9 29,13 46,13" fill="none" stroke="#14B8A6" stroke-width="2.5" stroke-linejoin="round"/></svg>
+    <h1>CampusPulse</h1>
+  </div>
+  <nav>
+    <button id="goFind" class="on">Find events</button>
+    <button id="goSaved">My tickets (<span id="savedCount">0</span>)</button>
+    <button id="goPost">Post an event</button>
+  </nav>
+</header>
+
+<!-- ===== page 1 ===== -->
+<div id="pageFind">
+
+  <section class="hero">
+    <div class="hero-text">
+      <h2>Opportunities are already happening on campus. <span>Don't be the last to know.</span></h2>
+      <p>One place for every department's events, other colleges' contests and sports tournaments.</p>
+      <div class="stats">
+        <div><b id="sLive">0</b><small>events live</small></div>
+        <div><b id="sSoon">0</b><small>closing this week</small></div>
+        <div><b id="sOrg">0</b><small>organizers</small></div>
+      </div>
+      <div class="count-box" id="countBox"></div>
+    </div>
+    <div class="radar-wrap">
+      <svg id="radar" viewBox="-110 -110 220 220" aria-label="Deadline radar">
+        <circle r="100" class="ring"/><circle r="66" class="ring"/><circle r="33" class="ring"/>
+        <line x1="-100" y1="0" x2="100" y2="0" class="ring"/><line x1="0" y1="-100" x2="0" y2="100" class="ring"/>
+        <text x="3" y="-34" class="rl">3 days</text><text x="3" y="-68" class="rl">7 days</text><text x="3" y="-101" class="rl">14 days</text>
+        <g id="sweep"><path d="M0 0 L100 0 A100 100 0 0 0 80 -60 Z" fill="#14B8A6" opacity="0.22"/><line x1="0" y1="0" x2="100" y2="0" stroke="#14B8A6" stroke-width="1.5"/>
+          <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="6s" repeatCount="indefinite"/></g>
+        <g id="dots"></g>
+        <circle r="4" fill="#fff"/>
+      </svg>
+      <p class="radar-note">Deadline Radar: closer to the centre = closes sooner. Tap a dot.</p>
+      <div class="legend"><i class="d-inter"></i>Inter-College <i class="d-open"></i>Open College <i class="d-sports"></i>Sports</div>
+    </div>
+  </section>
+
+  <section class="picks">
+    <div class="picks-head">
+      <h3>Picked for you</h3>
+      <label>I am from <select id="myDept"><option>CSE</option><option>IT</option><option>ECE</option><option>Mechanical</option><option>Civil</option></select></label>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div id="pickList" class="pick-list"></div>
+    <small class="tiny">Smart picks use simple rules now (department + interests + deadline). AI-based recommendations are planned.</small>
+  </section>
+
+  <section class="listing">
+    <div class="toolbar">
+      <div id="divBtns">
+        <button class="div-btn on" data-div="all">All <b id="c-all"></b></button>
+        <button class="div-btn" data-div="inter">Inter-College <b id="c-inter"></b></button>
+        <button class="div-btn" data-div="open">Open College <b id="c-open"></b></button>
+        <button class="div-btn" data-div="sports">Sports <b id="c-sports"></b></button>
+      </div>
+      <input type="text" id="search" placeholder="Search events, organizers, venues">
+      <select id="sortBy"><option value="deadline">Sort: deadline</option><option value="date">Sort: event date</option></select>
+      <label class="check"><input type="checkbox" id="onlyMine"> Only events I can join</label>
+    </div>
+    <div id="tickets"></div>
+  </section>
+</div>
+
+<!-- ===== page 2 ===== -->
+<div id="pageSaved" class="single hidden">
+  <h2>My tickets</h2>
+  <p class="hint">Events you saved. The stub shows how many days you have left to register.</p>
+  <div id="savedTickets"></div>
+</div>
+
+<!-- ===== page 3 ===== -->
+<div id="pagePost" class="single hidden">
+  <h2>Post an event</h2>
+  <p class="hint">New events stay "pending" until an admin checks them. Students only see verified events.</p>
+  <form id="postForm">
+    <div class="two"><label>Event name<input type="text" id="fName"></label><label>Organizer<input type="text" id="fOrg"></label></div>
+    <div class="two">
+      <label>Division<select id="fDiv"><option value="inter">Inter-College</option><option value="open">Open College</option><option value="sports">Sports</option></select></label>
+      <label>Category<select id="fCat"><option>Coding</option><option>Design</option><option>Research</option><option>Cultural</option><option>Sports</option></select></label>
+    </div>
+    <div class="two"><label>Event date<input type="date" id="fDate"></label><label>Last date to register<input type="date" id="fLast"></label></div>
+    <div class="two"><label>Venue<input type="text" id="fVenue"></label>
+      <label>Open to<select id="fDept"><option>All</option><option>CSE</option><option>IT</option><option>ECE</option><option>Mechanical</option><option>Civil</option></select></label></div>
+    <div class="two"><label>Fee (Free if none)<input type="text" id="fFee"></label><label>Official registration link<input type="text" id="fLink" placeholder="https://"></label></div>
+    <label>Poster image (optional, under 2 MB. If you skip it, CampusPulse makes a poster for you)<input type="file" id="fPoster" accept="image/*"></label>
+    <p id="msg"></p>
+    <button type="submit" class="main-btn">Send for verification</button>
+  </form>
+  <h3>Waiting for admin <small>(demo: click Verify to act as admin)</small></h3>
+  <div id="pendingBox"></div>
+</div>
+
+<dialog id="modal"></dialog>
+<div id="note"></div>
+<script src="script.js"></script>
+</body>
+</html>
